@@ -1,10 +1,11 @@
 #SimpleComServer.py - A sample COM Server
 
 # We expose a single method in a Python COM object. class PythonUtilities
-
+import pythoncom
 class PythonUtilities:
+	_reg_clsctx_ = pythoncom.CLSCTX_LOCAL_SERVER
 	_public_methods = [ 'SplitString']
-	_reg_progid_ = "PythonDemos.Utilities"
+	_reg_progid_ = "PythonString"
 
 	# Use "print pythoncom.CreateGuid()" to make a new one.
 	_reg_clsid_ = "{41E24E95-D45A-11D2-852C-204C4F4F5020}"
