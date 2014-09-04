@@ -52,15 +52,38 @@ class easyExcel:
 
     def fixStringsAndDates(self, aMatrix):
         # converts all unicode strings and times
-        newmatrix = []
+        newMatrix = []
         for row in aMatrix:
-            newrow = []
+            newRow = []
             for cell in row:
                 if type(cell) is UnicodeType:
-                    newrow.append(str(cell))
+                    newRow.append(str(cell))
                 elif type(cell) is TimeType:
-                    newrow.append(int(cell))
+                    newRow.append(int(cell))
                 else:
-                    newrow.append(cell)
-            newmatrix.append(tuple(newrow))
-        return newmatrix
+                    newRow.append(cell)
+            newMatrix.append(tuple(newRow))
+        return newMatrix
+
+    def getContiguousRange(self, sheet, row, col):
+        """Tracks down and across from top left cell unit it
+        encountours blank cells; returns the non-blank range.
+        Looks at first row and column
+        Blanks at bottom or right
+        are OK and return None within the array
+        """
+
+        sht = self.xlBook.Worksheets(sheeT)
+
+        # find the bottom row
+        bottom = row
+        while sht.Cells(bottom + 1, col).Value not in [None, ""]:
+            bottom = bottom + 1
+
+        # right column
+        right = col
+        while sht.Cells(row, right + 1).Value not in [None, ""]:
+            right = right + 1
+
+        return sht.Range(sht.Cells(row, col), sht.Cells(bottom, right)).Value
+
